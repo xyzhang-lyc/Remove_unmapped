@@ -1,0 +1,39 @@
+__default__:
+    threads: 1
+    stdout: log/%j.%x.%N.stdout
+    stderr: log/%j.%x.%N.stderr
+
+
+envs:
+    singularity: /usr/bin/singularity
+
+############################### Remove unmapped ####################################
+rule_Unmapped_id:
+    soft:
+        select_unmapped:
+            path: /kcproject/zhangxinyue/test/script/select_unmapped.py
+            version: Version-1.0.0
+    singularity:
+        py3:
+            path: /nas/Containers/Python3.sif
+            conargs: exec 
+            soft:
+                python3:
+                    cmd: python3
+    threads: 4
+
+
+rule_Unmapped_out:
+    soft:
+        samtools:
+            path: /nas/software/anaconda3/bin/samtools
+            version: 0.1.13
+    threads: 4
+
+
+rule_remove_Unmapped_id:
+    soft:
+        seqkit:
+            path: /nas/software/anaconda3/bin/seqkit
+            version: 0.15.0
+    threads: 4
